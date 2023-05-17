@@ -1,22 +1,22 @@
-import type { WrappedTokenInfo } from "@/lib/wrappedTokenInfo";
+import type { Currency } from "@/lib/currency";
 import { clsx } from "clsx";
 import Image from "next/image";
 
-export default function TokenIcon({
-  tokenInfo,
+export default function CurrencyIcon({
+  currency,
   size,
   className,
 }: {
-  tokenInfo: WrappedTokenInfo;
+  currency: Currency;
   size: number;
   className?: string;
 }) {
-  return tokenInfo.logoURI ? (
+  return currency.logoURI ? (
     <Image
       className={clsx("flex overflow-hidden rounded-[50%]", className)}
       height={size}
       width={size}
-      src={tokenInfo.logoURI}
+      src={currency.logoURI}
       alt="token icon"
     />
   ) : (
