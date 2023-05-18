@@ -1,76 +1,9 @@
 import type { HookArg } from "./internal/types";
-import { getQueryKey } from "./internal/useQueryKey";
-import { useChainID } from "./useChain";
+import { useQueryFactory } from "./internal/useQueryFactory";
+import { userRefectchInterval } from "./internal/utils";
 import { Token } from "@/lib/currency";
-import { allowance, balance } from "@/lib/reverseMirage/token";
-import { createQueryKeyStore } from "@lukemorales/query-key-factory";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { objectKeys } from "ts-extras";
-import { Address, usePublicClient } from "wagmi";
-
-export const useQueryFactory = () => {
-  const publicClient = usePublicClient();
-  const chainID = useChainID();
-
-  const queries = { allowance, balance } as const;
-
-  const queryGen =
-    <TArgs extends object, TRet extends unknown>(
-      read: (_publicClient: typeof publicClient, args: TArgs) => TRet,
-    ) =>
-    (args: Partial<TArgs>) =>
-      ({
-        queryKey: getQueryKey(read, args, chainID),
-        queryFn: () => read(publicClient, args as TArgs),
-        enabled: Object.keys(args).some(
-          (key) => args[key as keyof Partial<TArgs>] === undefined,
-        ),
-        staleTime: Infinity,
-      }) as const;
-
-  const reverseMirage = objectKeys(queries).reduce(
-    <TKey extends keyof typeof queries>(
-      acc: {
-        [query in keyof typeof queries]: ReturnType<
-          typeof queryGen<
-            Parameters<typeof queries[query]>[1],
-            ReturnType<typeof queries[query]>
-          >
-        >;
-      },
-      cur: TKey,
-    ) => {
-      const read = queries[cur] as typeof queries[TKey];
-      return {
-        ...acc,
-        [cur]: queryGen<
-          Parameters<typeof queries[TKey]>[1],
-          ReturnType<typeof queries[TKey]>
-          // rome-ignore lint/suspicious/noExplicitAny: cuhhhhhhh
-        >(read as any),
-      };
-    },
-    {} as {
-      [query in keyof typeof queries]: ReturnType<
-        typeof queryGen<
-          Parameters<typeof queries[query]>[1],
-          ReturnType<typeof queries[query]>
-        >
-      >;
-    },
-  );
-
-  // TODO: add query context for refetch interval
-
-  return useMemo(
-    () =>
-      createQueryKeyStore({
-        reverseMirage,
-      }),
-    [chainID],
-  );
-};
+import { Address } from "wagmi";
 
 export const useAllowance = <T extends Token>(
   token: HookArg<T>,
@@ -79,5 +12,8 @@ export const useAllowance = <T extends Token>(
 ) => {
   const queries = useQueryFactory();
 
-  return useQuery(queries.reverseMirage.allowance({ token, address, spender }));
+  return useQuery({
+    ...queries.reverseMirage.allowance({ token, address, spender }),
+    refetchInterval: userRefectchInterval,
+  });
 };
