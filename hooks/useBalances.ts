@@ -20,12 +20,12 @@ export const useBalances = (
       ? tokens.map((t) => {
           const nativeQueryKey = getQueryKey(
             balance,
-            address && t.isNative ? { nativeCurrency: t, address } : undefined,
+            { nativeCurrency: t.isNative ? t : undefined, address },
             chainID,
           );
           const queryKey = getQueryKey(
             balanceOf,
-            address && t.isToken ? { token: t, address } : undefined,
+            { token: t.isToken ? t : undefined, address },
             chainID,
           );
 

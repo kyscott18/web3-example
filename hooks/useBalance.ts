@@ -14,17 +14,15 @@ export const useBalance = <TCurrency extends Currency>(
 ): UseQueryResult<CurrencyAmount<TCurrency>> => {
   const publicClient = usePublicClient();
 
-  const nativeQueryKey = useQueryKey(
-    balance,
-    address && token && token.isNative
-      ? { nativeCurrency: token, address }
-      : undefined,
-  );
+  const nativeQueryKey = useQueryKey(balance, {
+    nativeCurrency: token?.isNative ? token : undefined,
+    address,
+  });
 
-  const queryKey = useQueryKey(
-    balanceOf,
-    address && token && token.isToken ? { token, address } : undefined,
-  );
+  const queryKey = useQueryKey(balanceOf, {
+    token: token?.isToken ? token : undefined,
+    address,
+  });
 
   return useQuery({
     queryKey: token?.isNative ? nativeQueryKey : queryKey,

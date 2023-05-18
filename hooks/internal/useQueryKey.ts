@@ -5,7 +5,7 @@ import { useMemo } from "react";
 export const useQueryKey = <TArgs extends object>(
   // rome-ignore lint/suspicious/noExplicitAny: dont need
   get: (publicClient: any, args: TArgs) => any,
-  args: TArgs | undefined,
+  args: Partial<TArgs>,
 ) => {
   const chainID = useChainID();
 
@@ -15,7 +15,7 @@ export const useQueryKey = <TArgs extends object>(
 export const getQueryKey = <TArgs extends object>(
   // rome-ignore lint/suspicious/noExplicitAny: dont need
   get: (publicClient: any, args: TArgs) => any,
-  args: TArgs | undefined,
+  args: Partial<TArgs>,
   chainID: SupportedChainIDs,
 ) => {
   return [
