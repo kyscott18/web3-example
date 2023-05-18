@@ -2,9 +2,9 @@ import { HookArg } from "./internal/types";
 import { getQueryKey } from "./internal/useQueryKey";
 import { userRefectchInterval } from "./internal/utils";
 import { useChainID } from "./useChain";
+import { Currency } from "@/lib/currency";
 import { balance, balanceOf } from "@/lib/reverseMirage/token";
 import { useQueries } from "@tanstack/react-query";
-import { Currency } from "@uniswap/sdk-core";
 import { Address } from "viem";
 import { usePublicClient } from "wagmi";
 

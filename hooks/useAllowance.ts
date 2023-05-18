@@ -1,9 +1,9 @@
 import type { HookArg } from "./internal/types";
 import { useQueryKey } from "./internal/useQueryKey";
 import { userRefectchInterval } from "./internal/utils";
+import { Token } from "@/lib/currency";
 import { allowance } from "@/lib/reverseMirage/token";
 import { useQuery } from "@tanstack/react-query";
-import type { Token } from "@uniswap/sdk-core";
 import invariant from "tiny-invariant";
 import { Address, usePublicClient } from "wagmi";
 
