@@ -2,9 +2,9 @@ import type { HookArg } from "./internal/types";
 import { getQueryKey } from "./internal/useQueryKey";
 import { useChainID } from "./useChain";
 import { Token } from "@/lib/currency";
-import { allowance } from "@/lib/reverseMirage/token";
+import { allowance, balance } from "@/lib/reverseMirage/token";
 import { createQueryKeyStore } from "@lukemorales/query-key-factory";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { objectKeys } from "ts-extras";
 import { Address, usePublicClient } from "wagmi";
@@ -13,7 +13,7 @@ export const useQueryFactory = () => {
   const publicClient = usePublicClient();
   const chainID = useChainID();
 
-  const queries = { allowance } as const;
+  const queries = { allowance, balance } as const;
 
   const queryGen =
     <TArgs extends object, TRet extends unknown>(
@@ -29,37 +29,27 @@ export const useQueryFactory = () => {
         staleTime: Infinity,
       }) as const;
 
-  const rm = {
-    allowance: (args: Partial<Parameters<typeof allowance>[1]>) => ({
-      queryKey: getQueryKey(allowance, args, chainID),
-      queryFn: () =>
-        allowance(publicClient, args as Parameters<typeof allowance>[1]),
-      enabled: objectKeys(args).some((key) => args[key] === undefined),
-      staleTime: Infinity,
-      context: undefined,
-    }),
-  } as const satisfies {
-    [query in keyof typeof queries]: (
-      args: Partial<Parameters<typeof queries[query]>[1]>,
-    ) => Omit<UseQueryOptions<ReturnType<typeof queries[query]>>, "queryKey"> &
-      NonNullable<Parameters<typeof createQueryKeyStore>[0][string]>[string];
-  };
-  const rm1 = { allowance: queryGen(allowance) };
-
-  const rm2 = objectKeys(queries).reduce((acc, cur) => {
+  const reverseMirage = objectKeys(queries).reduce((acc, cur) => {
     const read = queries[cur];
     return {
       ...acc,
       [cur]: queryGen(read),
     };
-  }, {} as { [query in keyof typeof queries]: ReturnType<typeof queryGen> });
+  }, {} as {
+    [query in keyof typeof queries]: ReturnType<
+      typeof queryGen<
+        Parameters<typeof queries[query]>[1],
+        ReturnType<typeof queries[query]>
+      >
+    >;
+  });
 
   // TODO: add query context for refetch interval
 
   return useMemo(
     () =>
       createQueryKeyStore({
-        reverseMirage: rm2,
+        reverseMirage,
       }),
     [chainID],
   );
