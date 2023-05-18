@@ -1,20 +1,21 @@
 import { useChainID } from "../useChain";
 import { SupportedChainIDs } from "@/lib/types";
+import { useMemo } from "react";
 
 export const useQueryKey = <TArgs extends object>(
   // rome-ignore lint/suspicious/noExplicitAny: dont need
   get: (publicClient: any, args: TArgs) => any,
   args: TArgs | undefined,
 ) => {
-  const chainId = useChainID();
+  const chainID = useChainID();
 
-  return args ? getQueryKey(get, args, chainId) : [];
+  return useMemo(() => getQueryKey(get, args, chainID), [get, args, chainID]);
 };
 
 export const getQueryKey = <TArgs extends object>(
   // rome-ignore lint/suspicious/noExplicitAny: dont need
   get: (publicClient: any, args: TArgs) => any,
-  args: TArgs,
+  args: TArgs | undefined,
   chainID: SupportedChainIDs,
 ) => {
   return [

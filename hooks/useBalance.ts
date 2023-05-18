@@ -8,7 +8,7 @@ import { CurrencyAmount } from "@uniswap/sdk-core";
 import invariant from "tiny-invariant";
 import { Address, usePublicClient } from "wagmi";
 
-export const useBalanceOf = <TCurrency extends Currency>(
+export const useBalance = <TCurrency extends Currency>(
   token: HookArg<TCurrency>,
   address: HookArg<Address>,
 ): UseQueryResult<CurrencyAmount<TCurrency>> => {

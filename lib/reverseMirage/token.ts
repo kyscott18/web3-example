@@ -1,5 +1,5 @@
-import { Token } from "../currency";
-import { CurrencyAmount, NativeCurrency } from "@uniswap/sdk-core";
+import { NativeCurrency, Token } from "../currency";
+import { CurrencyAmount } from "@uniswap/sdk-core";
 import { getAddress } from "viem";
 import { Address, PublicClient, erc20ABI } from "wagmi";
 

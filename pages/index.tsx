@@ -1,7 +1,8 @@
 import ConnectButton from "@/components/connectButton";
 import CurrencyAmountRow from "@/components/currencyAmountRow";
 import { useEnvironment } from "@/contexts/environment";
-import { useBalanceOf } from "@/hooks/useBalance";
+import { useBalances } from "@/hooks/useBalances";
+import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
 export default function Home() {
@@ -9,8 +10,12 @@ export default function Home() {
   const { nativeCurrency } = useEnvironment();
   const wrappedNative = nativeCurrency.wrapped;
 
-  const balanceQueryNative = useBalanceOf(nativeCurrency, address);
-  const balanceQueryWrapped = useBalanceOf(wrappedNative, address);
+  const tokens = useMemo(
+    () => [nativeCurrency, wrappedNative] as const,
+    [nativeCurrency, wrappedNative],
+  );
+
+  const balanceQueries = useBalances(tokens, address);
 
   return (
     <main
@@ -23,14 +28,13 @@ export default function Home() {
         {isConnected && (
           <>
             <div className=" w-full border-b-2 border-gray-200" />
-            <CurrencyAmountRow
-              currency={nativeCurrency}
-              currencyAmountQuery={balanceQueryNative}
-            />
-            <CurrencyAmountRow
-              currency={wrappedNative}
-              currencyAmountQuery={balanceQueryWrapped}
-            />
+            {balanceQueries.map((b, i) => (
+              <CurrencyAmountRow
+                key={tokens[i]?.name}
+                currency={tokens[i]!}
+                currencyAmountQuery={b}
+              />
+            ))}
           </>
         )}
       </div>
