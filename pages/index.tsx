@@ -35,11 +35,11 @@ export default function Home() {
               <CurrencyInfo currency={SepoliaEther} size={18} />
               <div className="flex gap-2">
                 {balanceQuery.data ? (
-                  <div className="bg-gray-200 rounded-lg h-8 w-12 flex flex-col items-center justify-center overflow-clip px-1">
-                    <p className="p2">{balanceQuery.data?.toSignificant(2)}</p>
+                  <div className="bg-gray-200 rounded-lg h-8 w-30 w-full flex flex-col items-center justify-center overflow-clip px-1">
+                    <p className="p2">{balanceQuery.data?.toSignificant()}</p>
                   </div>
                 ) : (
-                  <div className="bg-gray-200 rounded-lg h-8 w-12 animate-pulse" />
+                  <div className="bg-gray-200 rounded-lg h-8 w-30 animate-pulse" />
                 )}
                 <AsyncButton
                   className="h-8"

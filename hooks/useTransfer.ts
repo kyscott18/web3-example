@@ -1,9 +1,12 @@
 import { HookArg } from "./internal/types";
+import { useInvalidateCall } from "./internal/useInvalidateCall";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
 import { NativeCurrency } from "@/lib/currency";
+import { balance } from "@/lib/reverseMirage/token";
 import { useMutation } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
+import { getAddress } from "viem";
 import { Address } from "wagmi";
 import {
   prepareSendTransaction,
@@ -15,6 +18,8 @@ export const useTransfer = (
   amount: HookArg<CurrencyAmount<NativeCurrency>>,
   to: HookArg<Address>,
 ) => {
+  const invalidate = useInvalidateCall();
+
   const title = "Transfer";
 
   const mutate = useMutation({
@@ -43,6 +48,10 @@ export const useTransfer = (
     onError: (_, { toast }) => toaster.txError(toast),
     onSuccess: async (data, input) => {
       toaster.txSuccess({ ...input.toast, receipt: data });
+      invalidate(balance, {
+        nativeCurrency: input.amount.currency,
+        address: getAddress(data.from),
+      });
     },
   });
 

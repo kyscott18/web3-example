@@ -12,9 +12,8 @@ export const useBalance = (address: HookArg<Address>) => {
   const publicClient = usePublicClient();
 
   const queryKey = useQueryKey(
-    address
-      ? [{ get: balance, args: { nativeCurrency: SepoliaEther, address } }]
-      : undefined,
+    balance,
+    address ? { nativeCurrency: SepoliaEther, address } : undefined,
   );
 
   return useQuery({
@@ -42,9 +41,8 @@ export const useBalanceOf = (
   const publicClient = usePublicClient();
 
   const queryKey = useQueryKey(
-    token && address
-      ? [{ get: balanceOf, args: { token, address } }]
-      : undefined,
+    balanceOf,
+    token && address ? { token, address } : undefined,
   );
 
   return useQuery({

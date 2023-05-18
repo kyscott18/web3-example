@@ -28,6 +28,13 @@ export const WETH9: { [chainId in SupportedChainIDs]: Token } = {
     "WSEP",
     "Wrapped Sepolia Ether",
   ),
+  [5]: new Token(
+    5,
+    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    18,
+    "WSEP",
+    "Wrapped Sepolia Ether",
+  ),
 };
 
 export class NativeCurrency extends UniswapNativeCurrency {

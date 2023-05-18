@@ -1,43 +1,29 @@
-import { useChain } from "../useChain";
+import { useChainID } from "../useChain";
 import { SupportedChainIDs } from "@/lib/types";
 
-export const useQueryKey = <TArgs extends unknown[]>(
-  reads:
-    | [
-        ...{
-          [I in keyof TArgs]: {
-            // rome-ignore lint/suspicious/noExplicitAny: i dont care
-            get: (publicClient: any, args: TArgs[I]) => any;
-            args: TArgs[I];
-          };
-        },
-      ]
-    | undefined,
+export const useQueryKey = <TArgs extends object>(
+  // rome-ignore lint/suspicious/noExplicitAny: dont need
+  get: (publicClient: any, args: TArgs) => any,
+  args: TArgs | undefined,
 ) => {
-  const chainId = useChain();
+  const chainId = useChainID();
 
-  return getQueryKey(reads ? reads : [], chainId);
+  return args ? getQueryKey(get, args, chainId) : [];
 };
 
-export const getQueryKey = <TArgs extends unknown[]>(
-  reads: [
-    ...{
-      [I in keyof TArgs]: {
-        // rome-ignore lint/suspicious/noExplicitAny: i dont care
-        get: (publicClient: any, args: TArgs[I]) => any;
-        args: TArgs[I];
-      };
-    },
-  ],
+export const getQueryKey = <TArgs extends object>(
+  // rome-ignore lint/suspicious/noExplicitAny: dont need
+  get: (publicClient: any, args: TArgs) => any,
+  args: TArgs,
   chainID: SupportedChainIDs,
 ) => {
   return [
     {
       chainID,
-      reads: reads.map((r) => ({
-        name: r.get.name,
-        args: r.args,
-      })),
+      read: {
+        name: get.name,
+        args,
+      },
     },
   ] as const;
 };

@@ -10,11 +10,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { goerli, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
+  [sepolia, goerli],
   [publicProvider()],
 );
 
