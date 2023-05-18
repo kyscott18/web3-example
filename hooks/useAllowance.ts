@@ -29,20 +29,37 @@ export const useQueryFactory = () => {
         staleTime: Infinity,
       }) as const;
 
-  const reverseMirage = objectKeys(queries).reduce((acc, cur) => {
-    const read = queries[cur];
-    return {
-      ...acc,
-      [cur]: queryGen(read),
-    };
-  }, {} as {
-    [query in keyof typeof queries]: ReturnType<
-      typeof queryGen<
-        Parameters<typeof queries[query]>[1],
-        ReturnType<typeof queries[query]>
-      >
-    >;
-  });
+  const reverseMirage = objectKeys(queries).reduce(
+    <TKey extends keyof typeof queries>(
+      acc: {
+        [query in keyof typeof queries]: ReturnType<
+          typeof queryGen<
+            Parameters<typeof queries[query]>[1],
+            ReturnType<typeof queries[query]>
+          >
+        >;
+      },
+      cur: TKey,
+    ) => {
+      const read = queries[cur] as typeof queries[TKey];
+      return {
+        ...acc,
+        [cur]: queryGen<
+          Parameters<typeof queries[TKey]>[1],
+          ReturnType<typeof queries[TKey]>
+          // rome-ignore lint/suspicious/noExplicitAny: cuhhhhhhh
+        >(read as any),
+      };
+    },
+    {} as {
+      [query in keyof typeof queries]: ReturnType<
+        typeof queryGen<
+          Parameters<typeof queries[query]>[1],
+          ReturnType<typeof queries[query]>
+        >
+      >;
+    },
+  );
 
   // TODO: add query context for refetch interval
 
