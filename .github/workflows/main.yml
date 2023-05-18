@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+        pnpm-version: [8]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup
+        uses: ./.github/actions/setup
+
+  lint:
+    name: Lint
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+        pnpm-version: [8]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Check types
+        run: pnpm tsc
+      - name: Lint
+        run: pnpm lint
