@@ -1,24 +1,16 @@
-import AsyncButton from "@/components/asyncButton";
-import { Beet } from "@/components/beet";
 import ConnectButton from "@/components/connectButton";
-import CurrencyInfo from "@/components/currencyInfo";
-import { SepoliaEther } from "@/constants";
-import { useBalance } from "@/hooks/useBalance";
-import { useTransfer } from "@/hooks/useTransfer";
-import { CurrencyAmount } from "@uniswap/sdk-core";
-import invariant from "tiny-invariant";
-import { parseEther } from "viem";
+import CurrencyAmountRow from "@/components/currencyAmountRow";
+import { useEnvironment } from "@/contexts/environment";
+import { useBalanceOf } from "@/hooks/useBalance";
 import { useAccount } from "wagmi";
 
 export default function Home() {
   const { isConnected, address } = useAccount();
+  const { nativeCurrency } = useEnvironment();
+  const wrappedNative = nativeCurrency.wrapped;
 
-  const balanceQuery = useBalance(address);
-
-  const transferMutation = useTransfer(
-    CurrencyAmount.fromRawAmount(SepoliaEther, parseEther("0.01").toString()),
-    "0x59A6AbC89C158ef88d5872CaB4aC3B08474883D9",
-  );
+  const balanceQueryNative = useBalanceOf(nativeCurrency, address);
+  const balanceQueryWrapped = useBalanceOf(wrappedNative, address);
 
   return (
     <main
@@ -31,34 +23,14 @@ export default function Home() {
         {isConnected && (
           <>
             <div className=" w-full border-b-2 border-gray-200" />
-            <div className="w-full items-center justify-between flex">
-              <CurrencyInfo currency={SepoliaEther} size={18} />
-              <div className="flex gap-2">
-                {balanceQuery.data ? (
-                  <div className="bg-gray-200 rounded-lg h-8 w-30 w-full flex flex-col items-center justify-center overflow-clip px-1">
-                    <p className="p2">{balanceQuery.data?.toSignificant()}</p>
-                  </div>
-                ) : (
-                  <div className="bg-gray-200 rounded-lg h-8 w-30 animate-pulse" />
-                )}
-                <AsyncButton
-                  className="h-8"
-                  disabled={
-                    !balanceQuery.data ||
-                    !balanceQuery.data.greaterThan(
-                      parseEther("0.01").toString(),
-                    ) ||
-                    transferMutation.status !== "success"
-                  }
-                  onClick={async () => {
-                    invariant(transferMutation.status === "success");
-                    await Beet(transferMutation.data);
-                  }}
-                >
-                  Transfer
-                </AsyncButton>
-              </div>
-            </div>
+            <CurrencyAmountRow
+              currency={nativeCurrency}
+              currencyAmountQuery={balanceQueryNative}
+            />
+            <CurrencyAmountRow
+              currency={wrappedNative}
+              currencyAmountQuery={balanceQueryWrapped}
+            />
           </>
         )}
       </div>

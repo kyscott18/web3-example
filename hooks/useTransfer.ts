@@ -1,8 +1,8 @@
 import { HookArg } from "./internal/types";
 import { useInvalidateCall } from "./internal/useInvalidateCall";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
-import { NativeCurrency } from "@/lib/currency";
-import { balance } from "@/lib/reverseMirage/token";
+import { Currency } from "@/lib/currency";
+import { balance, balanceOf } from "@/lib/reverseMirage/token";
 import { useMutation } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
@@ -15,7 +15,7 @@ import {
 } from "wagmi/actions";
 
 export const useTransfer = (
-  amount: HookArg<CurrencyAmount<NativeCurrency>>,
+  amount: HookArg<CurrencyAmount<Currency>>,
   to: HookArg<Address>,
 ) => {
   const invalidate = useInvalidateCall();
@@ -28,7 +28,7 @@ export const useTransfer = (
       to,
       toast,
     }: {
-      amount: CurrencyAmount<NativeCurrency>;
+      amount: CurrencyAmount<Currency>;
       to: Address;
     } & {
       toast: TxToast;
@@ -48,10 +48,16 @@ export const useTransfer = (
     onError: (_, { toast }) => toaster.txError(toast),
     onSuccess: async (data, input) => {
       toaster.txSuccess({ ...input.toast, receipt: data });
-      invalidate(balance, {
-        nativeCurrency: input.amount.currency,
-        address: getAddress(data.from),
-      });
+
+      input.amount.currency.isNative
+        ? invalidate(balance, {
+            nativeCurrency: input.amount.currency,
+            address: getAddress(data.from),
+          })
+        : invalidate(balanceOf, {
+            token: input.amount.currency,
+            address: getAddress(data.from),
+          });
     },
   });
 

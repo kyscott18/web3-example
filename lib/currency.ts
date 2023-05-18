@@ -23,17 +23,19 @@ export class Token extends UniswapToken {
 export const WETH9: { [chainId in SupportedChainIDs]: Token } = {
   [11155111]: new Token(
     11155111,
-    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
     18,
     "WSEP",
     "Wrapped Sepolia Ether",
+    "/eth.png",
   ),
   [5]: new Token(
     5,
-    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
     18,
-    "WSEP",
-    "Wrapped Sepolia Ether",
+    "WETH",
+    "Wrapped Goerli Ether",
+    "/eth.png",
   ),
 };
 

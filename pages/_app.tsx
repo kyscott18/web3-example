@@ -1,3 +1,4 @@
+import { EnvironmentProvider } from "@/contexts/environment";
 import "@/styles/globals.css";
 import {
   RainbowKitProvider,
@@ -44,14 +45,16 @@ export default function App({ Component, pageProps }: AppProps) {
           coolMode
           chains={chains}
         >
-          <Component {...pageProps} />;
-          <Toaster
-            toastOptions={{
-              style: {
-                width: "310px",
-              },
-            }}
-          />
+          <EnvironmentProvider>
+            <Component {...pageProps} />;
+            <Toaster
+              toastOptions={{
+                style: {
+                  width: "310px",
+                },
+              }}
+            />
+          </EnvironmentProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiConfig>
