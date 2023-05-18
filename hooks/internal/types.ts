@@ -1,1 +1,1 @@
-export type HookArg<T> = T | null | undefined;
+export type HookArg<T> = T | undefined;

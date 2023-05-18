@@ -1,9 +1,8 @@
 import { HookArg } from "./internal/types";
-import { useInvalidateCall } from "./internal/useInvalidateCall";
+import { useQueryFactory } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
 import { Currency } from "@/lib/currency";
-import { balance, balanceOf } from "@/lib/reverseMirage/token";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
 import { getAddress } from "viem";
@@ -18,7 +17,8 @@ export const useTransfer = (
   amount: HookArg<CurrencyAmount<Currency>>,
   to: HookArg<Address>,
 ) => {
-  const invalidate = useInvalidateCall();
+  const queryClient = useQueryClient();
+  const queries = useQueryFactory();
 
   const title = "Transfer";
 
@@ -50,13 +50,17 @@ export const useTransfer = (
       toaster.txSuccess({ ...input.toast, receipt: data });
 
       input.amount.currency.isNative
-        ? invalidate(balance, {
-            nativeCurrency: input.amount.currency,
-            address: getAddress(data.from),
+        ? queryClient.invalidateQueries({
+            queryKey: queries.reverseMirage.balance({
+              nativeCurrency: input.amount.currency,
+              address: getAddress(data.from),
+            }).queryKey,
           })
-        : invalidate(balanceOf, {
-            token: input.amount.currency,
-            address: getAddress(data.from),
+        : queryClient.invalidateQueries({
+            queryKey: queries.reverseMirage.balanceOf({
+              token: input.amount.currency,
+              address: getAddress(data.from),
+            }).queryKey,
           });
     },
   });

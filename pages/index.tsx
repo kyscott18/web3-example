@@ -19,7 +19,9 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-center w-full font-mono px-3`}
+      className={
+        "flex min-h-screen flex-col items-center justify-center w-full font-mono px-3"
+      }
     >
       <div className="w-full max-w-md flex flex-col border-2 border-gray-200 rounded-xl bg-white p-4 gap-4">
         <div className="w-full flex gap-1">

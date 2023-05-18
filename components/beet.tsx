@@ -106,7 +106,7 @@ export class DefaultToasterWrapper {
     tx: TxSending | TxSuccess | TxError | TxPending,
   ) {
     return (
-      <div className="flex w-full flex-col overflow-hidden">
+      <div className="flex w-full flex-col overflow-hidden font-mono">
         <div className="flex items-center justify-between  w-full">
           <p className="flex items-center p2 gap-1 text-ellipsis ma">
             {tx.title}
@@ -124,13 +124,12 @@ export class DefaultToasterWrapper {
         <div className="flex p5">
           {tx.status === "success" ? (
             <div>
-              View Transaction:
+              View Transaction:{" "}
               <AddressLink address={tx.receipt.transactionHash} data="tx" />
             </div>
           ) : tx.status === "pending" ? (
             <div>
-              View Transaction:
-              <AddressLink address={tx.hash} data="tx" />
+              View Transaction: <AddressLink address={tx.hash} data="tx" />
             </div>
           ) : tx.status === "error" ? (
             tx.error ?? tx.description

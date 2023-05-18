@@ -1,33 +1,19 @@
 import type { HookArg } from "./internal/types";
-import { useQueryKey } from "./internal/useQueryKey";
+import { useQueryFactory } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
 import { Token } from "@/lib/currency";
-import { allowance } from "@/lib/reverseMirage/token";
 import { useQuery } from "@tanstack/react-query";
-import invariant from "tiny-invariant";
-import { Address, usePublicClient } from "wagmi";
+import { Address } from "wagmi";
 
 export const useAllowance = <T extends Token>(
   token: HookArg<T>,
   address: HookArg<Address>,
   spender: HookArg<Address>,
 ) => {
-  const publicClient = usePublicClient();
-
-  const queryKey = useQueryKey(
-    allowance,
-    token && address && spender ? { token, address, spender } : undefined,
-  );
+  const queries = useQueryFactory();
 
   return useQuery({
-    queryKey,
-    queryFn: () => {
-      invariant(token && address && spender);
-
-      return allowance(publicClient, { token, address, spender });
-    },
-    staleTime: Infinity,
-    enabled: !!token && !!address && !!spender,
+    ...queries.reverseMirage.allowance({ token, address, spender }),
     refetchInterval: userRefectchInterval,
   });
 };
