@@ -13,8 +13,8 @@ export const useBalance = <TCurrency extends Currency>(
   const queries = useQueryFactory();
 
   const query = token?.isNative
-    ? queries.reverseMirage.balance({ nativeCurrency: token, address })
-    : queries.reverseMirage.balanceOf({ token, address });
+    ? queries.reverseMirage.erc20Balance({ nativeCurrency: token, address })
+    : queries.reverseMirage.erc20BalanceOf({ token, address });
 
   // TODO: figure out why this is happening
   return useQuery(

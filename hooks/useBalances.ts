@@ -15,8 +15,8 @@ export const useBalances = (
     queries: tokens
       ? tokens.map((t) => {
           const query = t?.isNative
-            ? queries.reverseMirage.balance({ nativeCurrency: t, address })
-            : queries.reverseMirage.balanceOf({ token: t, address });
+            ? queries.reverseMirage.erc20Balance({ nativeCurrency: t, address })
+            : queries.reverseMirage.erc20BalanceOf({ token: t, address });
 
           return {
             ...query,

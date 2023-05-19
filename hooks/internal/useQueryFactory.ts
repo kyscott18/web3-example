@@ -1,12 +1,11 @@
 import { useChainID } from "../useChain";
 import { getQueryKey } from "./useQueryKey";
-import { allowance, balance, balanceOf } from "@/lib/reverseMirage/token";
-import { name } from "@/lib/reverseMirage/token";
+import { erc20Mirage } from "@/lib/reverseMirage/token";
 import { useMemo } from "react";
 import { objectKeys } from "ts-extras";
 import { usePublicClient } from "wagmi";
 
-const queries = { allowance, balance, balanceOf, name } as const;
+const queries = { ...erc20Mirage } as const;
 
 export const useQueryFactory = () => {
   const publicClient = usePublicClient();
