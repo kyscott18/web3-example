@@ -1,4 +1,5 @@
 import { HookArg } from "./internal/types";
+import { useFastClient } from "./internal/useFastClient";
 import { useQueryFactory } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
 import { Currency } from "@/lib/currency";
@@ -7,11 +8,7 @@ import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
 import { getAddress } from "viem";
 import { Address } from "wagmi";
-import {
-  prepareSendTransaction,
-  sendTransaction,
-  waitForTransaction,
-} from "wagmi/actions";
+import { prepareSendTransaction, sendTransaction } from "wagmi/actions";
 
 export const useTransfer = (
   amount: HookArg<CurrencyAmount<Currency>>,
@@ -19,6 +16,7 @@ export const useTransfer = (
 ) => {
   const queryClient = useQueryClient();
   const queries = useQueryFactory();
+  const client = useFastClient();
 
   const title = "Transfer";
 
@@ -42,7 +40,12 @@ export const useTransfer = (
 
       toaster.txPending({ ...toast, hash: transaction.hash });
 
-      return await waitForTransaction(transaction);
+      const start = Date.now();
+
+      const tx = await client.waitForTransactionReceipt(transaction);
+
+      console.log(Date.now() - start);
+      return tx;
     },
     onMutate: ({ toast }) => toaster.txSending(toast),
     onError: (_, { toast }) => toaster.txError(toast),
