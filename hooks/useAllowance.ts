@@ -13,7 +13,7 @@ export const useAllowance = <T extends Token>(
   const queries = useQueryFactory();
 
   return useQuery({
-    ...queries.reverseMirage.allowance({ token, address, spender }),
+    ...queries.reverseMirage.erc20Allowance({ token, address, spender }),
     refetchInterval: userRefectchInterval,
   });
 };

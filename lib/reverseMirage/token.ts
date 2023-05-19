@@ -3,7 +3,7 @@ import { CurrencyAmount } from "@uniswap/sdk-core";
 import { getAddress } from "viem";
 import { Address, PublicClient, erc20ABI } from "wagmi";
 
-export const balance = async (
+const erc20Balance = async (
   publicClient: PublicClient,
   args: { nativeCurrency: NativeCurrency; address: Address },
 ) => {
@@ -12,7 +12,7 @@ export const balance = async (
   return CurrencyAmount.fromRawAmount(args.nativeCurrency, data.toString());
 };
 
-export const balanceOf = async (
+const erc20BalanceOf = async (
   publicClient: PublicClient,
   args: { token: Token; address: Address },
 ) => {
@@ -26,7 +26,7 @@ export const balanceOf = async (
   return CurrencyAmount.fromRawAmount(args.token, data.toString());
 };
 
-export const allowance = async (
+const erc20Allowance = async (
   publicClient: PublicClient,
   args: { token: Token; address: Address; spender: Address },
 ) => {
@@ -40,7 +40,7 @@ export const allowance = async (
   return CurrencyAmount.fromRawAmount(args.token, data.toString());
 };
 
-export const totalSupply = async (
+const erc20TotalSupply = async (
   publicClient: PublicClient,
   args: { token: Token },
 ) => {
@@ -53,7 +53,7 @@ export const totalSupply = async (
   return CurrencyAmount.fromRawAmount(args.token, data.toString());
 };
 
-export const name = async (
+const erc20Name = async (
   publicClient: PublicClient,
   args: { token: Pick<Token, "address"> },
 ) => {
@@ -66,7 +66,7 @@ export const name = async (
   return data;
 };
 
-export const symbol = async (
+const erc20Symbol = async (
   publicClient: PublicClient,
   args: { token: Pick<Token, "address"> },
 ) => {
@@ -79,7 +79,7 @@ export const symbol = async (
   return data;
 };
 
-export const decimals = async (
+const erc20Decimals = async (
   publicClient: PublicClient,
   args: { token: Pick<Token, "address"> },
 ) => {
@@ -92,14 +92,14 @@ export const decimals = async (
   return data;
 };
 
-export const getToken = async (
+const erc20GetToken = async (
   publicClient: PublicClient,
   args: { token: Pick<Token, "address" | "chainId"> },
 ) => {
   const data = await Promise.all([
-    name(publicClient, args),
-    symbol(publicClient, args),
-    decimals(publicClient, args),
+    erc20Name(publicClient, args),
+    erc20Symbol(publicClient, args),
+    erc20Decimals(publicClient, args),
   ]);
 
   return new Token(
@@ -110,3 +110,14 @@ export const getToken = async (
     data[0],
   );
 };
+
+export const erc20Mirage = {
+  erc20Balance,
+  erc20BalanceOf,
+  erc20Allowance,
+  erc20TotalSupply,
+  erc20Name,
+  erc20Symbol,
+  erc20Decimals,
+  erc20GetToken,
+} as const;

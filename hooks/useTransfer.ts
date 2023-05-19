@@ -54,13 +54,13 @@ export const useTransfer = (
 
       input.amount.currency.isNative
         ? queryClient.invalidateQueries({
-            queryKey: queries.reverseMirage.balance({
+            queryKey: queries.reverseMirage.erc20Balance({
               nativeCurrency: input.amount.currency,
               address: getAddress(data.from),
             }).queryKey,
           })
         : queryClient.invalidateQueries({
-            queryKey: queries.reverseMirage.balanceOf({
+            queryKey: queries.reverseMirage.erc20BalanceOf({
               token: input.amount.currency,
               address: getAddress(data.from),
             }).queryKey,
