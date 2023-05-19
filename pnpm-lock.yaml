@@ -45,9 +45,6 @@ dependencies:
     version: 1.0.5(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(viem@0.3.30)
 
 devDependencies:
-  '@tanstack/query-core':
-    specifier: ^4.29.7
-    version: 4.29.7
   '@tanstack/react-query-devtools':
     specifier: ^4.29.7
     version: 4.29.7(@tanstack/react-query@4.29.7)(react-dom@18.2.0)(react@18.2.0)
