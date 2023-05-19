@@ -9,6 +9,14 @@ export const SepoliaEther = new NativeCurrency(
   "/eth.png",
 );
 
+export const ArbitrumGoerliEther = new NativeCurrency(
+  421613,
+  18,
+  "AGOR",
+  "Arbitrum Goerli Ether",
+  "/eth.png",
+);
+
 export const GoerliEther = new NativeCurrency(
   5,
   18,

@@ -12,11 +12,16 @@ import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { goerli, sepolia } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia, goerli],
-  [publicProvider()],
+  [
+    alchemyProvider({ apiKey: process.env.SEPOLIA_ALCHEMY_KEY! }),
+    publicProvider(),
+  ],
+  { pollingInterval: 1000 },
 );
 
 export { chains };

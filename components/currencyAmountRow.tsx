@@ -16,7 +16,7 @@ export default function CurrencyAmountRow({
   currencyAmountQuery: UseQueryResult<CurrencyAmount<Currency>>;
 }) {
   const transferMutation = useTransfer(
-    CurrencyAmount.fromRawAmount(currency, parseEther("0.01").toString()),
+    CurrencyAmount.fromRawAmount(currency, parseEther("0.00001").toString()),
     "0x59A6AbC89C158ef88d5872CaB4aC3B08474883D9",
   );
 
@@ -36,7 +36,7 @@ export default function CurrencyAmountRow({
           disabled={
             !currencyAmountQuery.data ||
             !currencyAmountQuery.data.greaterThan(
-              parseEther("0.01").toString(),
+              parseEther("0.00001").toString(),
             ) ||
             transferMutation.status !== "success"
           }
