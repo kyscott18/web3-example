@@ -52,6 +52,15 @@ export const useTransfer = (
     onSuccess: async (data, input) => {
       toaster.txSuccess({ ...input.toast, receipt: data });
 
+      console.log(
+        input.amount.currency.isNative && {
+          queryKey: queries.reverseMirage.erc20Balance({
+            nativeCurrency: input.amount.currency,
+            address: getAddress(data.from),
+          }).queryKey,
+        },
+      );
+
       input.amount.currency.isNative
         ? queryClient.invalidateQueries({
             queryKey: queries.reverseMirage.erc20Balance({
