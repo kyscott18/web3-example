@@ -1,7 +1,11 @@
 import { Currency } from "@/lib/currency";
+import { whatDecimalSeparator, whatSeparator } from "@/utils/format";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
+
+const decimalSeparator = whatDecimalSeparator();
+const separator = whatSeparator();
 
 export default function CurrencyAmountDisplay({
   amount,
@@ -16,7 +20,14 @@ export default function CurrencyAmountDisplay({
   }, [num]);
 
   return (
-    <CountUp start={from[1]} end={from[0]} duration={2.5} decimals={5}>
+    <CountUp
+      start={from[1]}
+      end={from[0]}
+      duration={2.5}
+      decimals={5}
+      decimal={decimalSeparator}
+      separator={separator}
+    >
       {({ countUpRef }) => (
         <p className="p2">
           <span className="p2" ref={countUpRef} />
