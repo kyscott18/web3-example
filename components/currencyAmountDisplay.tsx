@@ -27,12 +27,7 @@ export default function CurrencyAmountDisplay({
       decimals={5}
       decimal={decimalSeparator}
       separator={separator}
-    >
-      {({ countUpRef }) => (
-        <p className="p2">
-          <span className="p2" ref={countUpRef} />
-        </p>
-      )}
-    </CountUp>
+      className="p2"
+    />
   );
 }
