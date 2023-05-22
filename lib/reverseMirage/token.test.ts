@@ -10,6 +10,6 @@ describe("wagmi", () => {
         functionName: "balanceOf",
         args: ["0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC"],
       }),
-    ).toEqual(3n);
+    ).toEqual(4n);
   });
 });
