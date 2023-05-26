@@ -16,7 +16,7 @@ export const useBalances = (
   return useQueries({
     queries: tokens
       ? tokens.map((t) => {
-          const query = t?.isNative
+          const query = t.isNative
             ? balanceQuery({ nativeCurrency: t, address })
             : balanceOfQuery({ token: t, address });
 

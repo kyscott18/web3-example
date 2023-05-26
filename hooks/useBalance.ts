@@ -10,17 +10,24 @@ import { Address } from "wagmi";
 export const useBalance = <TCurrency extends Currency>(
   token: HookArg<TCurrency>,
   address: HookArg<Address>,
-): UseQueryResult<CurrencyAmount<TCurrency>> => {
+) => {
   const balanceQuery = useQueryGenerator(erc20Balance);
   const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
 
-  const query = token?.isNative
-    ? balanceQuery({ nativeCurrency: token, address })
-    : balanceOfQuery({ token, address });
-
-  return useQuery({
-    // @ts-ignore
+  const query = useQuery({
+    ...balanceOfQuery({ token: token?.isToken ? token : undefined, address }),
     refetchInterval: userRefectchInterval,
-    ...query,
   });
+
+  const nativeQuery = useQuery({
+    ...balanceQuery({
+      nativeCurrency: token?.isNative ? token : undefined,
+      address,
+    }),
+    refetchInterval: userRefectchInterval,
+  });
+
+  return (token?.isNative ? nativeQuery : query) as UseQueryResult<
+    CurrencyAmount<TCurrency>
+  >;
 };
