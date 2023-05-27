@@ -28,3 +28,11 @@ runs:
       shell: bash
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: pnpm i --frozen-lockfile
+
+    - name: Install foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: nightly
+
+    - name: Codegen
+      run: pnpm wagmi codegen

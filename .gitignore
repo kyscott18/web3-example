@@ -36,4 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 # @wagmi/cli
-generated.ts
+src/_test/generated.ts

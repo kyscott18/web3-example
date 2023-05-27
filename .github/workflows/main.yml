@@ -22,14 +22,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Install foundry
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
-
-      - name: Codegen
-        run: pnpm wagmi codegen
-
   lint:
     name: Lint
     needs: install
