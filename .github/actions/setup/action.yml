@@ -35,4 +35,5 @@ runs:
         version: nightly
 
     - name: Codegen
+      shell: bash
       run: pnpm wagmi codegen
