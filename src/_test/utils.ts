@@ -1,8 +1,13 @@
-import { forkUrl, localHttpUrl, localWsUrl } from "./constants";
-import { createPublicClient, createTestClient, http } from "viem";
+import { localHttpUrl, localWsUrl } from "./constants";
+import {
+  createPublicClient,
+  createTestClient,
+  createWalletClient,
+  http,
+} from "viem";
 import { Chain, localhost, mainnet } from "viem/chains";
 
-export const anvilChain = {
+export const anvil = {
   ...localhost,
   id: 1,
   contracts: mainnet.contracts,
@@ -18,26 +23,18 @@ export const anvilChain = {
   },
 } as const satisfies Chain;
 
-export const httpClient = createPublicClient({
-  batch: {
-    multicall: process.env.VITE_BATCH_MULTICALL === "true",
-  },
-  chain: anvilChain,
-  pollingInterval: 1_000,
-  transport: http(localHttpUrl),
-});
-
-export const publicClient = httpClient;
-
 export const testClient = createTestClient({
-  chain: anvilChain,
+  chain: anvil,
   mode: "anvil",
-  transport: http(localHttpUrl),
+  transport: http(),
 });
 
-export async function setBlockNumber(blockNumber: bigint) {
-  await testClient.reset({
-    blockNumber,
-    jsonRpcUrl: forkUrl,
-  });
-}
+export const publicClient = createPublicClient({
+  chain: anvil,
+  transport: http(),
+});
+
+export const walletClient = createWalletClient({
+  chain: anvil,
+  transport: http(),
+});

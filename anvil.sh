@@ -1,1 +1,1 @@
-anvil --fork-url $VITE_ANVIL_FORK_URL --block-time $VITE_ANVIL_BLOCK_TIME --fork-block-number $VITE_ANVIL_BLOCK_NUMBER
+anvil --fork-url $VITE_ANVIL_FORK_URL --fork-block-number $VITE_ANVIL_BLOCK_NUMBER

@@ -1,15 +1,10 @@
-import { wagmiContractConfig } from "../../_test/abis";
-import { publicClient } from "../../_test/utils";
+import { mockERC20Address } from "../../_test/setup";
+import { isAddress } from "viem";
 import { describe, expect, test } from "vitest";
 
 describe("wagmi", () => {
-  test("default", async () => {
-    expect(
-      await publicClient.readContract({
-        ...wagmiContractConfig,
-        functionName: "balanceOf",
-        args: ["0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC"],
-      }),
-    ).toEqual(4n);
+  test("can deploy the wagmi contract", async () => {
+    expect(mockERC20Address).toBeDefined();
+    expect(isAddress(mockERC20Address)).toBe(true);
   });
 });

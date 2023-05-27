@@ -1,27 +1,42 @@
-import { accounts, forkBlockNumber, localHttpUrl } from "./constants";
-import { anvilChain, setBlockNumber, testClient } from "./utils";
-import { createWalletClient, http } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
+import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
+import { ALICE, forkBlockNumber, forkUrl } from "./constants";
+import { mockErc20ABI } from "./generated";
+import { publicClient, testClient, walletClient } from "./utils";
+import { Address, Hex } from "viem";
 import { afterAll, beforeAll } from "vitest";
-import { erc20ABI } from "wagmi";
 
+export let mockERC20Address: Address;
 beforeAll(async () => {
-  const client = createWalletClient({
-    account: privateKeyToAccount(accounts[0].privateKey),
-    chain: anvilChain,
-    pollingInterval: 1_000,
-    transport: http(localHttpUrl),
+  // const client = createWalletClient({
+  //   account: privateKeyToAccount(accounts[0].privateKey),
+  //   chain: anvil,
+  //   pollingInterval: 1_000,
+  //   transport: http(localHttpUrl),
+  // });
+  // const a = await client.deployContract({
+  //   abi: mockErc20ABI,
+  //   bytecode: MockERC20.bytecode.object as Hex,
+  //   args: ["Cuh coin", "CUH", 18],
+  // });
+  // console.log(a);
+  const hash = await walletClient.deployContract({
+    account: ALICE,
+    abi: mockErc20ABI,
+    bytecode: MockERC20.bytecode.object as Hex,
+    args: ["Mock ERC20", "MOCK", 18],
   });
-  await client.deployContract({
-    abi: erc20ABI,
+
+  const receipt = await publicClient.waitForTransactionReceipt({
+    hash,
   });
+
+  mockERC20Address = receipt.contractAddress!;
 });
 
 afterAll(async () => {
   // Reset the anvil instance to the same state it was in before the tests started.
-  await Promise.all([
-    setBlockNumber(forkBlockNumber),
-    testClient.setAutomine(false),
-    testClient.setIntervalMining({ interval: 1 }),
-  ]);
+  await testClient.reset({
+    jsonRpcUrl: forkUrl,
+    blockNumber: forkBlockNumber,
+  });
 });
