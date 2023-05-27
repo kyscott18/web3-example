@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/core": "^7.22.1",
     "@rainbow-me/rainbowkit": "^1.0.1",
-    "@tanstack/react-query": "^4.29.7",
+    "@tanstack/react-query": "^4.29.11",
     "@uniswap/sdk-core": "^3.2.2",
     "@uniswap/token-lists": "1.0.0-beta.31",
     "clsx": "^1.2.1",
@@ -31,10 +31,11 @@
     "wagmi": "^1.0.8"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^4.29.7",
+    "@tanstack/react-query-devtools": "^4.29.11",
     "@types/node": "^20.2.5",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
+    "@wagmi/cli": "^0.1.15",
     "autoprefixer": "^10.4.14",
     "csstype": "^3.1.2",
     "husky": "^8.0.3",
