@@ -22,6 +22,14 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Install foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Codegen
+        run: pnpm wagmi codegen
+
   lint:
     name: Lint
     needs: install
@@ -38,3 +46,22 @@ jobs:
         run: pnpm tsc
       - name: Lint
         run: pnpm lint
+
+  test:
+    name: Test
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+        pnpm-version: [8]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Run tests
+        run: pnpm run test
+        env:
+          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+          VITE_ANVIL_BLOCK_NUMBER: ${{ vars.VITE_ANVIL_BLOCK_NUMBER }}
+

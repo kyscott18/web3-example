@@ -13,7 +13,7 @@
     "source.organizeImports.rome": true
   },
   "[solidity]": {
-    "editor.defaultFormatter": "JuanBlanco.solidity" 
+    "editor.defaultFormatter": "JuanBlanco.solidity"
   },
   "solidity.formatter": "forge"
 }
