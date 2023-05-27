@@ -1,8 +1,8 @@
 import { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
-import { Currency } from "@/lib/currency";
-import { erc20Balance, erc20BalanceOf } from "@/lib/reverseMirage/token";
+import { Currency } from "@/src/lib/currency";
+import { erc20Balance, erc20BalanceOf } from "@/src/lib/reverseMirage/token";
 import { useQueries } from "@tanstack/react-query";
 import { Address } from "viem";
 

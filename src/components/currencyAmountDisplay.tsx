@@ -1,5 +1,5 @@
-import { Currency } from "@/lib/currency";
-import { whatDecimalSeparator, whatSeparator } from "@/utils/format";
+import { Currency } from "@/src/lib/currency";
+import { whatDecimalSeparator, whatSeparator } from "@/src/utils/format";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";

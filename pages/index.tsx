@@ -1,7 +1,7 @@
-import ConnectButton from "@/components/connectButton";
-import CurrencyAmountRow from "@/components/currencyAmountRow";
-import { useEnvironment } from "@/contexts/environment";
-import { useBalances } from "@/hooks/useBalances";
+import ConnectButton from "@/src/components/connectButton";
+import CurrencyAmountRow from "@/src/components/currencyAmountRow";
+import { useEnvironment } from "@/src/contexts/environment";
+import { useBalances } from "@/src/hooks/useBalances";
 import { useMemo } from "react";
 import { useAccount } from "wagmi";
 

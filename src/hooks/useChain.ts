@@ -1,4 +1,4 @@
-import { SupportedChainIDs } from "@/lib/types";
+import { SupportedChainIDs } from "@/src/lib/types";
 import { useChainId } from "wagmi";
 
 export const useChainID = (): SupportedChainIDs => {
