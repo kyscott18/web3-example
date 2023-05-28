@@ -2,7 +2,7 @@ import { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
 import { Currency } from "@/src/lib/currency";
-import { erc20Balance, erc20BalanceOf } from "@/src/lib/reverseMirage/token";
+import { erc20BalanceOf, nativeBalance } from "@/src/lib/reverseMirage/token";
 import { useQueries } from "@tanstack/react-query";
 import { Address } from "viem";
 
@@ -10,7 +10,7 @@ export const useBalances = (
   tokens: HookArg<readonly Currency[]>,
   address: HookArg<Address>,
 ) => {
-  const balanceQuery = useQueryGenerator(erc20Balance);
+  const balanceQuery = useQueryGenerator(nativeBalance);
   const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
 
   return useQueries({

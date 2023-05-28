@@ -3,7 +3,7 @@ import { useFastClient } from "./internal/useFastClient";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/src/components/beet";
 import { Currency } from "@/src/lib/currency";
-import { erc20Balance, erc20BalanceOf } from "@/src/lib/reverseMirage/token";
+import { erc20BalanceOf, nativeBalance } from "@/src/lib/reverseMirage/token";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
@@ -16,7 +16,7 @@ export const useTransfer = (
   to: HookArg<Address>,
 ) => {
   const queryClient = useQueryClient();
-  const balanceQuery = useQueryGenerator(erc20Balance);
+  const balanceQuery = useQueryGenerator(nativeBalance);
   const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
   const client = useFastClient();
 

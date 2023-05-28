@@ -4,7 +4,7 @@ import { CurrencyAmount } from "@uniswap/sdk-core";
 import { getAddress } from "viem";
 import { Address, PublicClient, erc20ABI } from "wagmi";
 
-export const erc20Balance = (
+export const nativeBalance = (
   publicClient: PublicClient,
   args: { nativeCurrency: NativeCurrency; address: Address },
 ) => {
