@@ -1,7 +1,8 @@
 import type { HookArg } from "./internal/types";
-import { useQueryFactory } from "./internal/useQueryFactory";
+import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
-import { Token } from "@/lib/currency";
+import { Token } from "@/src/lib/currency";
+import { erc20Allowance } from "@/src/lib/reverseMirage/token";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "wagmi";
 
@@ -10,10 +11,10 @@ export const useAllowance = <T extends Token>(
   address: HookArg<Address>,
   spender: HookArg<Address>,
 ) => {
-  const queries = useQueryFactory();
+  const allowanceQuery = useQueryGenerator(erc20Allowance);
 
   return useQuery({
-    ...queries.reverseMirage.erc20Allowance({ token, address, spender }),
+    ...allowanceQuery({ token, address, spender }),
     refetchInterval: userRefectchInterval,
   });
 };

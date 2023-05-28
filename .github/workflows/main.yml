@@ -36,7 +36,41 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup javascript env
         uses: ./.github/actions/setup-js
+      - name: Install foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      - name: Codegen
+        run: pnpm wagmi generate
       - name: Check types
         run: pnpm tsc
       - name: Lint
         run: pnpm lint
+
+  test:
+    # TODO: run anvil as an action
+    if: false
+    name: Test
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+        pnpm-version: [8]
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Setup javascript env
+        uses: ./.github/actions/setup-js
+      - name: Install foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+      - name: Codegen
+        run: pnpm wagmi generate
+      - name: Run tests
+        run: pnpm run test
+        env:
+          VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
+          VITE_ANVIL_BLOCK_NUMBER: ${{ secrets.VITE_ANVIL_BLOCK_NUMBER }}
+

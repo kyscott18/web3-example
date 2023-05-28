@@ -1,5 +1,5 @@
-import { NativeCurrency } from "@/lib/currency";
-import { SupportedChainIDs } from "@/lib/types";
+import { NativeCurrency } from "@/src/lib/currency";
+import { SupportedChainIDs } from "@/src/lib/types";
 
 export const SepoliaEther = new NativeCurrency(
   11155111,

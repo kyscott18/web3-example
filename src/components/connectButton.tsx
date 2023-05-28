@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import Button from "@/src/components/button";
 import { ConnectButton as ConnectButtonRainbow } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 

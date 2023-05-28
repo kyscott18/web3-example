@@ -11,5 +11,9 @@
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports.rome": true
-  }
+  },
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "solidity.formatter": "forge"
 }

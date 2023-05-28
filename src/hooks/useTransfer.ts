@@ -1,8 +1,9 @@
 import { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
-import { useQueryFactory } from "./internal/useQueryFactory";
-import { BeetStage, TxToast, toaster } from "@/components/beet";
-import { Currency } from "@/lib/currency";
+import { useQueryGenerator } from "./internal/useQueryFactory";
+import { BeetStage, TxToast, toaster } from "@/src/components/beet";
+import { Currency } from "@/src/lib/currency";
+import { erc20BalanceOf, nativeBalance } from "@/src/lib/reverseMirage/token";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
@@ -15,7 +16,8 @@ export const useTransfer = (
   to: HookArg<Address>,
 ) => {
   const queryClient = useQueryClient();
-  const queries = useQueryFactory();
+  const balanceQuery = useQueryGenerator(nativeBalance);
+  const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
   const client = useFastClient();
 
   const title = "Transfer";
@@ -55,13 +57,13 @@ export const useTransfer = (
       await Promise.all([
         input.amount.currency.isNative
           ? queryClient.invalidateQueries({
-              queryKey: queries.reverseMirage.erc20Balance({
+              queryKey: balanceQuery({
                 nativeCurrency: input.amount.currency,
                 address: getAddress(data.from),
               }).queryKey,
             })
           : queryClient.invalidateQueries({
-              queryKey: queries.reverseMirage.erc20BalanceOf({
+              queryKey: balanceOfQuery({
                 token: input.amount.currency,
                 address: getAddress(data.from),
               }).queryKey,

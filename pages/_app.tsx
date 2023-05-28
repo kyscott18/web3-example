@@ -1,4 +1,4 @@
-import { EnvironmentProvider } from "@/contexts/environment";
+import { EnvironmentProvider } from "@/src/contexts/environment";
 import "@/styles/globals.css";
 import {
   RainbowKitProvider,
