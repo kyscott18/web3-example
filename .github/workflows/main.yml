@@ -41,8 +41,7 @@ jobs:
         with:
           version: nightly
       - name: Codegen
-        shell: bash
-        run: pnpm wagmi codegen
+        run: pnpm wagmi generate
       - name: Check types
         run: pnpm tsc
       - name: Lint
@@ -66,8 +65,7 @@ jobs:
         with:
           version: nightly
       - name: Codegen
-        shell: bash
-        run: pnpm wagmi codegen
+        run: pnpm wagmi generate
       - name: Run tests
         run: pnpm run test
         env:
