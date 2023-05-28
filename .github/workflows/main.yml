@@ -18,7 +18,8 @@ jobs:
         node-version: [18]
         pnpm-version: [8]
     steps:
-      - uses: actions/checkout@v3
+      - name: Clone repository
+        uses: actions/checkout@v3
       - name: Setup javascript env
         uses: ./.github/actions/setup-js
 
@@ -31,6 +32,10 @@ jobs:
         node-version: [18]
         pnpm-version: [8]
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Setup javascript env
+        uses: ./.github/actions/setup-js
       - name: Check types
         run: pnpm tsc
       - name: Lint
