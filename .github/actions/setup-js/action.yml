@@ -1,8 +1,7 @@
-name: "Setup"
+name: "Setup javascript env"
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
     - uses: pnpm/action-setup@v2.2.2
       with:
         version: ${{ matrix.pnpm-version }}
