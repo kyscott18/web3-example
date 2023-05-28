@@ -107,7 +107,7 @@ export const erc20Decimals = (
   } satisfies ReverseMirage<number>;
 };
 
-export const erc20GetToken = async (
+export const erc20GetToken = (
   publicClient: PublicClient,
   args: { token: Pick<Token, "address" | "chainId"> },
 ) => {
