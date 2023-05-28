@@ -19,8 +19,8 @@ jobs:
         pnpm-version: [8]
     steps:
       - uses: actions/checkout@v3
-      - name: Setup
-        uses: ./.github/actions/setup
+      - name: Setup javascript env
+        uses: ./.github/actions/setup-js
 
   lint:
     name: Lint
@@ -31,9 +31,6 @@ jobs:
         node-version: [18]
         pnpm-version: [8]
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup
-        uses: ./.github/actions/setup
       - name: Check types
         run: pnpm tsc
       - name: Lint
