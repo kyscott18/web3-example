@@ -3,11 +3,7 @@ import { getQueryKey } from "./useQueryKey";
 import { ReverseMirage } from "@/src/lib/reverseMirage/types";
 import { PublicClient, usePublicClient } from "wagmi";
 
-export const useQueryGenerator = <
-  TArgs extends object,
-  TRet extends unknown,
-  TParse extends unknown,
->(
+export const useQueryGenerator = <TArgs extends object, TRet, TParse>(
   reverseMirage: (
     publicClient: PublicClient,
     args: TArgs,

@@ -1,7 +1,4 @@
-export type ReverseMirage<
-  TRet extends unknown = unknown,
-  TParse extends unknown = unknown,
-> = {
+export type ReverseMirage<TRet = unknown, TParse = unknown> = {
   read: () => TRet | Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
