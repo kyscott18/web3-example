@@ -44,7 +44,7 @@ export default function Button({
       type="button"
       disabled={disabled || loading}
       className={clsx(
-        "p2 flex flex-row items-center justify-center rounded-lg px-4 py-2 leading-normal",
+        "p2 flex flex-row items-center justify-center rounded-lg px-4 py-2 leading-normal w-full",
         "transistion-transform active:scale-98 hover:bg-opacity-90",
         variant === "primary" && "bg-gray-1000 text-white",
         variant === "inverse" && "bg-white",

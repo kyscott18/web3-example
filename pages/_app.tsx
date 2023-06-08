@@ -1,5 +1,5 @@
 import { EnvironmentProvider } from "@/src/contexts/environment";
-import "@/styles/globals.css";
+import "@/src/styles/globals.css";
 import {
   RainbowKitProvider,
   getDefaultWallets,
