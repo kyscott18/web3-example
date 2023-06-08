@@ -1,4 +1,4 @@
-import { SupportedChainIDs } from "@/src/lib/types";
+import { SupportedChainIDs } from "@/lib/types";
 
 export const getQueryKey = <TArgs extends object>(
   // rome-ignore lint/suspicious/noExplicitAny: dont need

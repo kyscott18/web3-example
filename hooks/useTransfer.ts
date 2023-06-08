@@ -1,9 +1,9 @@
 import { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
 import { useQueryGenerator } from "./internal/useQueryFactory";
-import { BeetStage, TxToast, toaster } from "@/src/components/beet";
-import { Currency } from "@/src/lib/currency";
-import { erc20BalanceOf, nativeBalance } from "@/src/lib/reverseMirage/token";
+import { BeetStage, TxToast, toaster } from "@/components/beet";
+import { Currency } from "@/lib/currency";
+import { erc20BalanceOf, nativeBalance } from "@/lib/reverseMirage/token";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";

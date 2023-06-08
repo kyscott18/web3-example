@@ -1,8 +1,8 @@
 import type { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
-import { Token } from "@/src/lib/currency";
-import { erc20Allowance } from "@/src/lib/reverseMirage/token";
+import { Token } from "@/lib/currency";
+import { erc20Allowance } from "@/lib/reverseMirage/token";
 import { useQuery } from "@tanstack/react-query";
 import { Address } from "wagmi";
 

@@ -1,5 +1,5 @@
 import CurrencyIcon from "./currencyIcon";
-import type { Currency } from "@/src/lib/currency";
+import type { Currency } from "@/lib/currency";
 import { clsx } from "clsx";
 
 export default function CurrencyInfo({

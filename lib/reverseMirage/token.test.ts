@@ -1,7 +1,7 @@
-import MockERC20 from "../../../contracts/out/MockERC20.sol/MockERC20.json";
-import { ALICE, BOB } from "../../_test/constants";
-import { mockErc20ABI } from "../../_test/generated";
-import { publicClient, walletClient } from "../../_test/utils";
+import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
+import { ALICE, BOB } from "../../test/constants";
+import { mockErc20ABI } from "../../test/generated";
+import { publicClient, walletClient } from "../../test/utils";
 import {
   erc20Allowance,
   erc20BalanceOf,
