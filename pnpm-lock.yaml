@@ -15,8 +15,8 @@ dependencies:
     specifier: ^4.29.15
     version: 4.29.15(react-dom@18.2.0)(react@18.2.0)
   '@uniswap/sdk-core':
-    specifier: ^3.2.6
-    version: 3.2.6
+    specifier: ^4.0.1
+    version: 4.0.1
   '@uniswap/token-lists':
     specifier: 1.0.0-beta.31
     version: 1.0.0-beta.31
@@ -1517,8 +1517,8 @@ packages:
     dependencies:
       '@types/node': 20.3.1
 
-  /@uniswap/sdk-core@3.2.6:
-    resolution: {integrity: sha512-MvH/3G0W0sM2g7XjaUy9qU7IabxL/KQp/ucU0AQGpVxiTaAhmVRtsjkkv9UDyzpIXVrmevl4kRgV7KKE29UuXA==}
+  /@uniswap/sdk-core@4.0.1:
+    resolution: {integrity: sha512-zCL2lemiEoiaRxRrM5V7oajadA2bJgf40lPh90taRIWgJoe0DN5KgLnz4G0N6uwbps9+YtZTocyztJslEsIkrg==}
     engines: {node: '>=10'}
     dependencies:
       '@ethersproject/address': 5.7.0
