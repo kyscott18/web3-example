@@ -11,9 +11,5 @@
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports.rome": true
-  },
-  "[solidity]": {
-    "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
-  },
-  "solidity.formatter": "forge"
+  }
 }

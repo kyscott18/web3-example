@@ -1,4 +1,5 @@
-import { localHttpUrl, localWsUrl } from "./constants";
+import { ALICE, localHttpUrl, localWsUrl } from "./constants";
+import { MockConnector } from "@wagmi/core/connectors/mock";
 import {
   createPublicClient,
   createTestClient,
@@ -6,6 +7,13 @@ import {
   http,
 } from "viem";
 import { Chain, localhost, mainnet } from "viem/chains";
+import {
+  Connector,
+  CreateConfigParameters,
+  PublicClient,
+  WebSocketPublicClient,
+  createConfig,
+} from "wagmi";
 
 export const anvil = {
   ...localhost,
@@ -37,4 +45,21 @@ export const publicClient = createPublicClient({
 export const walletClient = createWalletClient({
   chain: anvil,
   transport: http(),
+  account: ALICE,
 });
+
+type Config = Partial<CreateConfigParameters>;
+
+export function setupConfig(config: Config = {}) {
+  return createConfig<PublicClient, WebSocketPublicClient>({
+    connectors: [
+      new MockConnector({
+        options: {
+          walletClient: walletClient,
+        },
+      }),
+    ] as unknown as Connector[],
+    publicClient: () => publicClient,
+    ...config,
+  });
+}
