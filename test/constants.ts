@@ -1,3 +1,7 @@
+import { Token } from "../lib/currency";
+import { anvil } from "./utils";
+import { getContractAddress } from "viem";
+
 export const localHttpUrl = "http://127.0.0.1:8545";
 export const localWsUrl = "ws://127.0.0.1:8545";
 
@@ -25,3 +29,15 @@ export const ACCOUNTS = [
 
 // Named accounts
 export const [ALICE, BOB] = ACCOUNTS;
+
+const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
+
+console.log(mockERC20Address);
+
+export const mockERC20 = new Token(
+  anvil.id,
+  mockERC20Address,
+  18,
+  "Mock ERC20",
+  "MOCK",
+);
