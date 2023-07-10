@@ -1,8 +1,8 @@
+import { erc20BalanceOf, nativeBalance } from "../lib/reverseMirage/token";
 import type { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
 import { Currency } from "@/lib/currency";
-import { erc20BalanceOf, nativeBalance } from "@/lib/reverseMirage/token";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { Address } from "wagmi";
