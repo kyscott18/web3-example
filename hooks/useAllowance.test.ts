@@ -3,7 +3,6 @@ import { ALICE, BOB } from "../test/constants";
 import { mockERC20 } from "../test/setup";
 import { useAllowance } from "./useAllowance";
 import { renderHook, waitFor } from "@testing-library/react";
-import { Fraction } from "@uniswap/sdk-core";
 import { describe, expect, test } from "vitest";
 
 describe("allowance test", () => {
@@ -12,7 +11,8 @@ describe("allowance test", () => {
       wrapper,
     });
 
-    await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
-    await waitFor(() => expect(result.current.data?.equalTo(new Fraction(2))));
+    await waitFor(() => result.current.isSuccess);
+    expect(result.current.data).toBeTruthy();
+    expect(result.current.data!.equalTo("2000000000000000000")).toBe(true);
   });
 });

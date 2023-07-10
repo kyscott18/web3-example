@@ -20,9 +20,15 @@ beforeAll(async () => {
   const { contractAddress } = await publicClient.waitForTransactionReceipt({
     hash: deployHash,
   });
-
   invariant(contractAddress);
-  mockERC20 = new Token(anvil.id, contractAddress, 18, "Mock ERC20", "MOCK");
+
+  mockERC20 = new Token(
+    anvil.id,
+    contractAddress ?? mockERC20.address,
+    18,
+    "Mock ERC20",
+    "MOCK",
+  );
 
   const mintHash = await walletClient.writeContract({
     abi: mockErc20ABI,

@@ -11,7 +11,6 @@ import {
   erc20TotalSupply,
 } from "./token";
 import { readAndParse } from "./utils";
-import { Fraction } from "@uniswap/sdk-core";
 import { getAddress, isAddress } from "viem";
 import { describe, expect, test } from "vitest";
 
@@ -55,12 +54,12 @@ describe("token", () => {
     const balanceOfALICE = await readAndParse(
       erc20BalanceOf(publicClient, { token, address: ALICE }),
     );
-    expect(balanceOfALICE.equalTo(new Fraction(3, 4)));
+    expect(balanceOfALICE.equalTo("750000000000000000")).toBe(true);
 
     const balanceOfBOB = await readAndParse(
       erc20BalanceOf(publicClient, { token, address: BOB }),
     );
-    expect(balanceOfBOB.equalTo(new Fraction(1, 4)));
+    expect(balanceOfBOB.equalTo("250000000000000000")).toBe(true);
   });
 
   test("can read allowance", async () => {
@@ -73,7 +72,7 @@ describe("token", () => {
     const allowance = await readAndParse(
       erc20Allowance(publicClient, { token, address: ALICE, spender: BOB }),
     );
-    expect(allowance.equalTo(2));
+    expect(allowance.equalTo("2000000000000000000")).toBe(true);
   });
 
   test("can read totalSupply", async () => {
@@ -86,7 +85,7 @@ describe("token", () => {
     const totalSupply = await readAndParse(
       erc20TotalSupply(publicClient, { token }),
     );
-    expect(totalSupply.equalTo(1));
+    expect(totalSupply.equalTo("1000000000000000000")).toBe(true);
   });
 
   test("can get token", async () => {
