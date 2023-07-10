@@ -1,6 +1,5 @@
 import { wrapper } from "../test";
-import { ALICE } from "../test/constants";
-import { mockERC20 } from "../test/setup";
+import { ALICE, mockERC20 } from "../test/constants";
 import { useBalance } from "./useBalance";
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
@@ -11,7 +10,7 @@ describe("balance test", () => {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toBeTruthy();
     expect(result.current.data!.equalTo("750000000000000000")).toBe(true);
   });

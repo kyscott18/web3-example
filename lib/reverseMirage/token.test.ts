@@ -1,5 +1,4 @@
-import { ALICE, BOB } from "../../test/constants";
-import { mockERC20 } from "../../test/setup";
+import { ALICE, BOB, mockERC20 } from "../../test/constants";
 import { publicClient } from "../../test/utils";
 import {
   erc20Allowance,

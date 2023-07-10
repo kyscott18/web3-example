@@ -1,3 +1,6 @@
+import { Token } from "../lib/currency";
+import { getContractAddress } from "viem";
+
 export const localHttpUrl = "http://127.0.0.1:8545";
 export const localWsUrl = "ws://127.0.0.1:8545";
 
@@ -25,3 +28,13 @@ export const ACCOUNTS = [
 
 // Named accounts
 export const [ALICE, BOB] = ACCOUNTS;
+
+const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
+
+export const mockERC20 = new Token(
+  1,
+  mockERC20Address,
+  18,
+  "Mock ERC20",
+  "MOCK",
+);
