@@ -10,7 +10,7 @@ describe("allowance test", () => {
       wrapper,
     });
 
-    await waitFor(() => result.current.isSuccess);
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toBeTruthy();
     expect(result.current.data!.equalTo("2000000000000000000")).toBe(true);
   });
