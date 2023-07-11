@@ -5,9 +5,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
-    // "moduleResolution": "NodeNext",
-    // "module": "ESNext",
-    // "target": "ES2021",
 
     // build
     "noEmit": true,
