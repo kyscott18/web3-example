@@ -1,13 +1,13 @@
 import { useChainID } from "../useChain";
 import { getQueryKey } from "./useQueryKey";
-import { ReverseMirage } from "@/lib/reverseMirage/types";
+import { ReverseMirageRead } from "@/lib/reverseMirage/types";
 import { PublicClient, usePublicClient } from "wagmi";
 
 export const useQueryGenerator = <TArgs extends object, TRet, TParse>(
   reverseMirage: (
     publicClient: PublicClient,
     args: TArgs,
-  ) => ReverseMirage<TRet, TParse>,
+  ) => ReverseMirageRead<TRet, TParse>,
 ) => {
   const publicClient = usePublicClient();
   const chainID = useChainID();

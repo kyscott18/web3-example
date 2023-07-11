@@ -1,7 +1,11 @@
 import { NativeCurrency, Token } from "../currency";
-import { ReverseMirage } from "./types";
+import { ReverseMirageRead } from "./types";
 import { CurrencyAmount } from "@uniswap/sdk-core";
-import { getAddress } from "viem";
+import {
+  SendTransactionParameters,
+  SimulateContractParameters,
+  getAddress,
+} from "viem";
 import { Address, PublicClient, erc20ABI } from "wagmi";
 
 export const nativeBalance = (
@@ -12,7 +16,7 @@ export const nativeBalance = (
     read: () => publicClient.getBalance({ address: args.address }),
     parse: (data) =>
       CurrencyAmount.fromRawAmount(args.nativeCurrency, data.toString()),
-  } satisfies ReverseMirage<bigint>;
+  } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20BalanceOf = (
@@ -28,7 +32,7 @@ export const erc20BalanceOf = (
         args: [args.address],
       }),
     parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
-  } satisfies ReverseMirage<bigint>;
+  } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20Allowance = (
@@ -44,7 +48,7 @@ export const erc20Allowance = (
         args: [args.address, args.spender],
       }),
     parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
-  } satisfies ReverseMirage<bigint>;
+  } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20TotalSupply = (
@@ -59,7 +63,7 @@ export const erc20TotalSupply = (
         functionName: "totalSupply",
       }),
     parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
-  } satisfies ReverseMirage<bigint>;
+  } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20Name = (
@@ -74,7 +78,7 @@ export const erc20Name = (
         functionName: "name",
       }),
     parse: (data) => data,
-  } satisfies ReverseMirage<string>;
+  } satisfies ReverseMirageRead<string>;
 };
 
 export const erc20Symbol = (
@@ -89,7 +93,7 @@ export const erc20Symbol = (
         functionName: "symbol",
       }),
     parse: (data: string) => data,
-  } satisfies ReverseMirage<string>;
+  } satisfies ReverseMirageRead<string>;
 };
 
 export const erc20Decimals = (
@@ -104,7 +108,7 @@ export const erc20Decimals = (
         functionName: "decimals",
       }),
     parse: (data) => data,
-  } satisfies ReverseMirage<number>;
+  } satisfies ReverseMirageRead<number>;
 };
 
 export const erc20GetToken = (
@@ -126,5 +130,52 @@ export const erc20GetToken = (
         data[1],
         data[0],
       ),
-  } satisfies ReverseMirage<[string, string, number]>;
+  } satisfies ReverseMirageRead<[string, string, number]>;
+};
+
+export const nativeTransfer = (args: {
+  to: Address;
+  amount: CurrencyAmount<NativeCurrency>;
+}) => {
+  return {
+    to: args.to,
+    value: BigInt(args.amount.quotient.toString()),
+  } satisfies Omit<SendTransactionParameters, "account" | "chain">;
+};
+
+export const erc20Transfer = (args: {
+  to: Address;
+  amount: CurrencyAmount<Token>;
+}) => {
+  return {
+    address: args.amount.currency.address as Address,
+    abi: erc20ABI,
+    functionName: "transfer",
+    args: [args.to, BigInt(args.amount.quotient.toString())],
+  } satisfies SimulateContractParameters<typeof erc20ABI, "transfer">;
+};
+
+export const erc20Approve = (args: {
+  spender: Address;
+  amount: CurrencyAmount<Token>;
+}) => {
+  return {
+    address: args.amount.currency.address as Address,
+    abi: erc20ABI,
+    functionName: "approve",
+    args: [args.spender, BigInt(args.amount.quotient.toString())],
+  } satisfies SimulateContractParameters<typeof erc20ABI, "approve">;
+};
+
+export const erc20TransferFrom = (args: {
+  from: Address;
+  to: Address;
+  amount: CurrencyAmount<Token>;
+}) => {
+  return {
+    address: args.amount.currency.address as Address,
+    abi: erc20ABI,
+    functionName: "transferFrom",
+    args: [args.to, args.from, BigInt(args.amount.quotient.toString())],
+  } satisfies SimulateContractParameters<typeof erc20ABI, "transferFrom">;
 };
