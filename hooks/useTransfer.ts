@@ -2,14 +2,20 @@ import { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
-import { Currency } from "@/lib/currency";
-import { erc20BalanceOf, nativeBalance } from "@/lib/reverseMirage/token";
+import { Currency, NativeCurrency, Token } from "@/lib/currency";
+import {
+  erc20BalanceOf,
+  erc20Transfer,
+  nativeBalance,
+  nativeTransfer,
+} from "@/lib/reverseMirage/token";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
 import { getAddress } from "viem";
 import { Address } from "wagmi";
 import { prepareSendTransaction, sendTransaction } from "wagmi/actions";
+import { prepareWriteContract, writeContract } from "wagmi/actions";
 
 export const useTransfer = (
   amount: HookArg<CurrencyAmount<Currency>>,
@@ -33,12 +39,27 @@ export const useTransfer = (
     } & {
       toast: TxToast;
     }) => {
-      const request = await prepareSendTransaction({
-        to,
-        value: BigInt(amount.quotient.toString()),
-      });
+      let transaction: Awaited<ReturnType<typeof sendTransaction>>;
 
-      const transaction = await sendTransaction(request);
+      if (amount.currency.isNative) {
+        const request = await prepareSendTransaction({
+          ...nativeTransfer({
+            to,
+            amount: amount as CurrencyAmount<NativeCurrency>,
+          }),
+        });
+
+        transaction = await sendTransaction(request);
+      } else {
+        const request = await prepareWriteContract({
+          ...erc20Transfer({
+            to,
+            amount: amount as CurrencyAmount<Token>,
+          }),
+        });
+
+        transaction = await writeContract(request);
+      }
 
       toaster.txPending({ ...toast, hash: transaction.hash });
 

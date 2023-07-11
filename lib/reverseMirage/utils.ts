@@ -1,7 +1,7 @@
-import { ReverseMirage } from "./types";
+import { ReverseMirageRead } from "./types";
 
 export const readAndParse = async <TRet, TParse>(
-  reverseMirage: ReverseMirage<TRet, TParse>,
+  reverseMirageRead: ReverseMirageRead<TRet, TParse>,
 ) => {
-  return reverseMirage.parse(await reverseMirage.read());
+  return reverseMirageRead.parse(await reverseMirageRead.read());
 };

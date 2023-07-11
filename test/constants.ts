@@ -1,4 +1,4 @@
-import { Token } from "../lib/currency";
+import { NativeCurrency, Token } from "../lib/currency";
 import { getContractAddress } from "viem";
 
 export const localHttpUrl = "http://127.0.0.1:8545";
@@ -37,4 +37,12 @@ export const mockERC20 = new Token(
   18,
   "Mock ERC20",
   "MOCK",
+);
+
+export const anvilEther = new NativeCurrency(
+  1,
+  18,
+  "ETH",
+  "Anvil Ether",
+  "/eth.png",
 );
