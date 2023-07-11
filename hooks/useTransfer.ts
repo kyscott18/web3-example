@@ -3,15 +3,15 @@ import { useFastClient } from "./internal/useFastClient";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
 import { Currency, NativeCurrency, Token } from "@/lib/currency";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CurrencyAmount } from "@uniswap/sdk-core";
+import { useMemo } from "react";
 import {
   erc20BalanceOf,
   erc20Transfer,
   nativeBalance,
   nativeTransfer,
-} from "@/lib/reverseMirage/token";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CurrencyAmount } from "@uniswap/sdk-core";
-import { useMemo } from "react";
+} from "reverse-mirage";
 import { getAddress } from "viem";
 import { Address } from "wagmi";
 import { prepareSendTransaction, sendTransaction } from "wagmi/actions";

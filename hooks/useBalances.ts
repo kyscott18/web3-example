@@ -2,8 +2,8 @@ import { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
 import { Currency } from "@/lib/currency";
-import { erc20BalanceOf, nativeBalance } from "@/lib/reverseMirage/token";
 import { useQueries } from "@tanstack/react-query";
+import { erc20BalanceOf, nativeBalance } from "reverse-mirage";
 import { Address } from "viem";
 
 export const useBalances = (

@@ -1,9 +1,9 @@
-import { erc20Allowance } from "../lib/reverseMirage/token";
 import type { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
 import { Token } from "@/lib/currency";
 import { useQuery } from "@tanstack/react-query";
+import { erc20Allowance } from "reverse-mirage";
 import { Address } from "wagmi";
 
 export const useAllowance = <T extends Token>(

@@ -1,6 +1,6 @@
 import { useChainID } from "../useChain";
 import { getQueryKey } from "./useQueryKey";
-import { ReverseMirageRead } from "@/lib/reverseMirage/types";
+import { ReverseMirageRead } from "reverse-mirage";
 import { PublicClient, usePublicClient } from "wagmi";
 
 export const useQueryGenerator = <TArgs extends object, TRet, TParse>(
