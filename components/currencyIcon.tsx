@@ -1,7 +1,6 @@
-import type { Currency } from "@/lib/currency";
+import { Currency } from "@/lib/types";
 import { clsx } from "clsx";
 import Image from "next/image";
-
 export default function CurrencyIcon({
   currency,
   size,

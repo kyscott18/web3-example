@@ -1,8 +1,7 @@
-import { Currency } from "@/lib/currency";
 import { whatDecimalSeparator, whatSeparator } from "@/utils/format";
-import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import { Currency, CurrencyAmount } from "reverse-mirage";
 
 const decimalSeparator = whatDecimalSeparator();
 const separator = whatSeparator();
@@ -10,7 +9,7 @@ const separator = whatSeparator();
 export default function CurrencyAmountDisplay({
   amount,
 }: { amount: CurrencyAmount<Currency> }) {
-  const num = Number(amount.toSignificant(6));
+  const num = Number(amount.amount);
 
   // [newest, oldest]
   const [from, setFrom] = useState<[number, number]>([0, 0]);

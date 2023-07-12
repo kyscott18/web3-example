@@ -7,8 +7,7 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
   const { isConnected, address } = useAccount();
-  const { nativeCurrency } = useEnvironment();
-  const wrappedNative = nativeCurrency.wrapped;
+  const { nativeCurrency, wrappedNative } = useEnvironment();
 
   const tokens = useMemo(
     () => [nativeCurrency, wrappedNative] as const,

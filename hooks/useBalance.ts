@@ -1,10 +1,15 @@
 import type { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
-import { Currency } from "@/lib/currency";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { CurrencyAmount } from "@uniswap/sdk-core";
-import { erc20BalanceOf, nativeBalance } from "reverse-mirage";
+import {
+  Currency,
+  CurrencyAmount,
+  erc20BalanceOf,
+  isNativeCurrency,
+  isToken,
+  nativeBalance,
+} from "reverse-mirage";
 import { Address } from "wagmi";
 
 export const useBalance = <TCurrency extends Currency>(
@@ -15,19 +20,22 @@ export const useBalance = <TCurrency extends Currency>(
   const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
 
   const query = useQuery({
-    ...balanceOfQuery({ token: token?.isToken ? token : undefined, address }),
-    refetchInterval: userRefectchInterval,
-  });
-
-  const nativeQuery = useQuery({
-    ...balanceQuery({
-      nativeCurrency: token?.isNative ? token : undefined,
+    ...balanceOfQuery({
+      token: token && isToken(token) ? token : undefined,
       address,
     }),
     refetchInterval: userRefectchInterval,
   });
 
-  return (token?.isNative ? nativeQuery : query) as UseQueryResult<
-    CurrencyAmount<TCurrency>
-  >;
+  const nativeQuery = useQuery({
+    ...balanceQuery({
+      nativeCurrency: token && isNativeCurrency(token) ? token : undefined,
+      address,
+    }),
+    refetchInterval: userRefectchInterval,
+  });
+
+  return (
+    token && isNativeCurrency(token) ? nativeQuery : query
+  ) as UseQueryResult<CurrencyAmount<TCurrency>>;
 };

@@ -1,4 +1,3 @@
-import { NativeCurrency, Token } from "../lib/currency";
 import { getContractAddress } from "viem";
 
 export const localHttpUrl = "http://127.0.0.1:8545";
@@ -31,18 +30,17 @@ export const [ALICE, BOB] = ACCOUNTS;
 
 const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
 
-export const mockERC20 = new Token(
-  1,
-  mockERC20Address,
-  18,
-  "Mock ERC20",
-  "MOCK",
-);
+export const mockERC20 = {
+  chainID: 1,
+  address: mockERC20Address,
+  decimals: 18,
+  name: "Mock ERC20",
+  symbol: "MOCK",
+};
 
-export const anvilEther = new NativeCurrency(
-  1,
-  18,
-  "ETH",
-  "Anvil Ether",
-  "/eth.png",
-);
+export const anvilEther = {
+  chainID: 1,
+  decimals: 18,
+  name: "Anvil Ether",
+  symbol: "ETH",
+};

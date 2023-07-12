@@ -2,6 +2,10 @@ import { wrapper } from "../test";
 import { ALICE, mockERC20 } from "../test/constants";
 import { useBalance } from "./useBalance";
 import { renderHook, waitFor } from "@testing-library/react";
+import {
+  currencyAmountEqualTo,
+  makeCurrencyAmountFromString,
+} from "reverse-mirage";
 import { describe, expect, test } from "vitest";
 
 describe("balance test", () => {
@@ -12,6 +16,11 @@ describe("balance test", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toBeTruthy();
-    expect(result.current.data!.equalTo("750000000000000000")).toBe(true);
+    expect(
+      currencyAmountEqualTo(
+        result.current.data!,
+        makeCurrencyAmountFromString(mockERC20, ".75"),
+      ),
+    ).toBe(true);
   });
 });

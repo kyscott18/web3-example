@@ -1,35 +1,48 @@
-import { NativeCurrency } from "@/lib/currency";
-import { SupportedChainIDs } from "@/lib/types";
+import { NativeCurrency, SupportedChainIDs, Token } from "@/lib/types";
 
-export const SepoliaEther = new NativeCurrency(
-  11155111,
-  18,
-  "SEP",
-  "Sepolia Ether",
-  "/eth.png",
-);
+const WrappedSepoliaEther = {
+  chainID: 11155111,
+  address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  decimals: 18,
+  name: "Wrapped Sepolia Ether",
+  symbol: "WSEP",
+  logoURI: "/eth.png",
+} as const satisfies Token;
 
-export const ArbitrumGoerliEther = new NativeCurrency(
-  421613,
-  18,
-  "AGOR",
-  "Arbitrum Goerli Ether",
-  "/eth.png",
-);
+const SepoliaEther = {
+  chainID: 11155111,
+  decimals: 18,
+  name: "Sepolia Ether",
+  symbol: "SEP",
+  logoURI: "/eth.png",
+} as const satisfies NativeCurrency;
 
-export const GoerliEther = new NativeCurrency(
-  5,
-  18,
-  "ETH",
-  "Goerli Ether",
-  "/eth.png",
-);
+const WrappedGoerliEther = {
+  chainID: 5,
+  address: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+  decimals: 18,
+  name: "Wrapped Goerli Ether",
+  symbol: "WETH",
+  logoURI: "/eth.png",
+} as const satisfies Token;
+
+const GoerliEther = {
+  chainID: 5,
+  decimals: 18,
+  name: "Goerli Ether",
+  symbol: "ETH",
+  logoURI: "/eth.png",
+} as const satisfies NativeCurrency;
 
 export const config: {
   [chain in SupportedChainIDs]: {
     nativeCurrency: NativeCurrency;
+    wrappedNative: Token;
   };
 } = {
-  5: { nativeCurrency: GoerliEther },
-  11155111: { nativeCurrency: SepoliaEther },
+  5: { nativeCurrency: GoerliEther, wrappedNative: WrappedGoerliEther },
+  11155111: {
+    nativeCurrency: SepoliaEther,
+    wrappedNative: WrappedSepoliaEther,
+  },
 };

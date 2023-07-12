@@ -3,11 +3,14 @@ import { Beet } from "./beet";
 import CurrencyAmountDisplay from "./currencyAmountDisplay";
 import CurrencyInfo from "./currencyInfo";
 import { useTransfer } from "@/hooks/useTransfer";
-import { Currency } from "@/lib/currency";
 import { UseQueryResult } from "@tanstack/react-query";
-import { CurrencyAmount } from "@uniswap/sdk-core";
+import {
+  Currency,
+  CurrencyAmount,
+  currencyAmountLessThan,
+  makeCurrencyAmountFromString,
+} from "reverse-mirage";
 import invariant from "tiny-invariant";
-import { parseEther } from "viem";
 
 export default function CurrencyAmountRow({
   currency,
@@ -17,7 +20,7 @@ export default function CurrencyAmountRow({
   currencyAmountQuery: UseQueryResult<CurrencyAmount<Currency>>;
 }) {
   const transferMutation = useTransfer(
-    CurrencyAmount.fromRawAmount(currency, parseEther("0.001").toString()),
+    makeCurrencyAmountFromString(currency, "0.001"),
     "0x59A6AbC89C158ef88d5872CaB4aC3B08474883D9",
   );
 
@@ -36,8 +39,9 @@ export default function CurrencyAmountRow({
           className="h-8"
           disabled={
             !currencyAmountQuery.data ||
-            !currencyAmountQuery.data.greaterThan(
-              parseEther("0.001").toString(),
+            currencyAmountLessThan(
+              currencyAmountQuery.data,
+              makeCurrencyAmountFromString(currency, "0.001"),
             ) ||
             transferMutation.status !== "success"
           }

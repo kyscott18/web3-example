@@ -1,6 +1,6 @@
 import CurrencyIcon from "./currencyIcon";
-import type { Currency } from "@/lib/currency";
 import { clsx } from "clsx";
+import { Currency } from "reverse-mirage";
 
 export default function CurrencyInfo({
   currency,

@@ -1,9 +1,13 @@
 import { HookArg } from "./internal/types";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { userRefectchInterval } from "./internal/utils";
-import { Currency } from "@/lib/currency";
 import { useQueries } from "@tanstack/react-query";
-import { erc20BalanceOf, nativeBalance } from "reverse-mirage";
+import {
+  Currency,
+  erc20BalanceOf,
+  isNativeCurrency,
+  nativeBalance,
+} from "reverse-mirage";
 import { Address } from "viem";
 
 export const useBalances = (
@@ -16,7 +20,7 @@ export const useBalances = (
   return useQueries({
     queries: tokens
       ? tokens.map((t) => {
-          const query = t.isNative
+          const query = isNativeCurrency(t)
             ? balanceQuery({ nativeCurrency: t, address })
             : balanceOfQuery({ token: t, address });
 

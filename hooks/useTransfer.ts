@@ -2,13 +2,16 @@ import { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
 import { useQueryGenerator } from "./internal/useQueryFactory";
 import { BeetStage, TxToast, toaster } from "@/components/beet";
-import { Currency, NativeCurrency, Token } from "@/lib/currency";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CurrencyAmount } from "@uniswap/sdk-core";
 import { useMemo } from "react";
 import {
+  Currency,
+  CurrencyAmount,
+  NativeCurrency,
+  Token,
   erc20BalanceOf,
   erc20Transfer,
+  isNativeCurrency,
   nativeBalance,
   nativeTransfer,
 } from "reverse-mirage";
@@ -41,7 +44,7 @@ export const useTransfer = (
     }) => {
       let transaction: Awaited<ReturnType<typeof sendTransaction>>;
 
-      if (amount.currency.isNative) {
+      if (isNativeCurrency(amount.currency)) {
         const request = await prepareSendTransaction({
           ...nativeTransfer({
             to,
@@ -76,7 +79,7 @@ export const useTransfer = (
       toaster.txSuccess({ ...input.toast, receipt: data });
 
       await Promise.all([
-        input.amount.currency.isNative
+        isNativeCurrency(input.amount.currency)
           ? queryClient.invalidateQueries({
               queryKey: balanceQuery({
                 nativeCurrency: input.amount.currency,
